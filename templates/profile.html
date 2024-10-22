@@ -1,0 +1,2754 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-------------------------------- css Tages ------------------------------------>
+    <link rel="stylesheet" href="{{ url_for('static', path='/bootstrap/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/js/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/js/responsive.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/manegerPart.css') }}">
+     
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/media.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/jquery-migrate.js"></script> 
+    <script>
+      window.onload = function() {
+    // Retrieve all user data from localStorage
+    let userId = localStorage.getItem('userid');
+    let userEmail = localStorage.getItem('useremail');
+    let userName = localStorage.getItem('username');
+    let userPhone = localStorage.getItem('userphone');
+    let userDob = localStorage.getItem('userdob');
+    let userGender = localStorage.getItem('usergender');
+    let userFather = localStorage.getItem('userfather');
+    let userCountry = localStorage.getItem('usercountry');
+    let userMaritalStatus = localStorage.getItem('usermarital');
+
+    // Check if userId is available and dynamically set the href for markAttendance link
+    if (userId) {
+        document.getElementById('markAttendanceLink').href = `./markAttendance/${userId}`;
+    }
+
+    // Set the user's name in the h3 tag
+    let nameElement = document.querySelector('.content h3');
+    if (userName) {
+        nameElement.textContent = userName;
+    } 
+
+    // Update profile details
+    let profileDetails = document.querySelectorAll('.profile_details span');
+    if (profileDetails.length > 0) {
+        profileDetails[0].textContent = userName || 'N/A';
+        profileDetails[1].textContent = userFather || 'N/A';
+        profileDetails[2].textContent = userDob || 'N/A';
+        profileDetails[3].textContent = userGender || 'N/A';
+        profileDetails[4].textContent = userEmail || 'N/A';
+        profileDetails[5].textContent = userPhone || 'N/A';
+        profileDetails[6].textContent = userMaritalStatus || 'N/A';
+        profileDetails[7].textContent = userCountry || 'N/A';
+    }
+}
+
+       function logoutFunction(){
+        localStorage.removeItem('userid');
+    localStorage.removeItem('useremail');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userphone');
+    localStorage.removeItem('userdob');
+    localStorage.removeItem('usergender');
+    localStorage.removeItem('userfather');
+    localStorage.removeItem('usercountry');
+    localStorage.removeItem('usermarital');
+    localStorage.removeItem('clockStatus');
+    window.location.href = '/';
+
+}
+ 
+   </script>
+
+</head>
+
+<body id="full">
+    <!-------------------------------- Sidebar ------------------------------------>
+    <aside>
+        <div class="aside_btn d-lg-flex d-none">
+            <img src="../static/images/icons/ham.svg" alt="Hamburger Menu">
+        </div>
+        <div class="close-full d-lg-none d-flex">
+            <i class="fa-solid fa-xmark"></i>
+        </div>
+        <div class="logo">
+            <img src="../static/images/logo/logo.svg">
+            <span>/</span>
+            <img src="../static/images/logo/custom.png" alt="">
+        </div>
+        <ul>
+            <li>
+                <a href="../dashboard" class="active">
+                    <img src="../static/images/icons/icona_1.svg" alt="">
+                    <span>Dashboard</span>
+  
+                </a>
+  
+            </li>
+            <li>
+                <a class="sub-btn">
+                    <img src="../static/images/icons/icona_2.svg" alt="">
+                    <span>Attendance</span>
+                    <i class="fa-solid fa-angle-down dropdown1"></i>
+  
+  
+                </a>
+                <ul class="sub-menu">
+                    <li><a id="markAttendanceLink"  href="">Mark Attendance</a></li>
+                    <li><a href="../attendanceReport">Attendance Report</a></li> 
+                </ul>
+            </li>
+            <li>
+                <a class="sub-btn">
+                    <img src="../static/images/icons/icona_3.svg" alt="">
+                    <span>Leaves</span>
+                    <i class="fa-solid fa-angle-down dropdown1"></i>
+  
+                </a>
+                <ul class="sub-menu">
+                    <li><a href="../leaveApplications">Apply Leave</a></li>
+                    <li><a href="../Leavebalance">Leave Balance </a></li>
+                    <li><a href="../leaveReport">Leave Reports</a></li> 
+                </ul>
+            </li>
+            <li>
+                <a class="sub-btn" href="../holidays">
+                    <img src="../static/images/icons/icona_4.svg" alt="">
+                    <span>Holidays Calendar</span> 
+  
+                </a>
+                 
+            </li>
+            <li>
+                <a class="sub-btn" href="../assests">
+                  <img src="../static/images/icons/icona_2.svg" alt="" />
+                  <span>Asset-Issue</span>
+                </a>
+              </li>
+            <li>
+                <a class="sub-btn" href="../Noticeboard">
+                    <img src="../static/images/icons/icona_2.svg" alt="">
+                    <span>Noticeboard</span> 
+  
+                </a>
+                
+            </li>
+            <li>
+                <a class="sub-btn" href="../awards">
+                    <img src="../static/images/icons/icona_5.svg" alt="">
+                    <span>Awards</span> 
+                </a>
+               
+            </li>
+            <li>
+                <a class="sub-btn">
+                    <img src="../static/images/icons/icona_6.svg" alt="">
+                    <span>Account Settings</span>
+                    <i class="fa-solid fa-angle-down dropdown1"></i>
+                </a>
+                <ul class="sub-menu">
+                      <li><a href="../profile">Profile </a></li>
+                    <li><a href="../changepassword">Change Password</a></li> 
+                </ul>
+            </li>
+            <li>
+                <a class="sub-btn" onclick="logoutFunction()">
+                    <img src="../static/images/icons/icona_7.svg" alt="">
+                    <span>Logout</span>
+  
+                </a>
+            </li>
+        </ul>
+    </aside>
+    <!-------------------------------- main_area ------------------------------------>
+    <div class="main_area">
+        <header>
+            <div class="row">
+                <div class="col-md-6 col-8 d-flex align-content-center">
+                    <div class="close-full close11">
+                        <img src="../static/images/icons/ham.svg" alt="Hamburger Menu">
+                    </div>
+                    <div class="aside_btn btn_mobile d-lg-none d-flex">
+                        <img src="../static/images/icons/ham.svg" alt="Hamburger Menu">
+                    </div>
+                    <div class="header_search">
+                        <input type="search" placeholder="Search By Staff ID, Name, Role">
+                        <button><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </div>
+                </div>
+                <div class="col-md-6 col-4">
+                    <div class="header_box_2">
+                        <ul>
+                            <li>
+                                <img src="../static/images/gif/notification.gif" alt="">
+                            </li>
+                            <li onclick="var el = document.getElementById('full'); el.requestFullscreen();">
+                                <i class="fa-duotone fa-solid fa-expand"></i>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <img src="../static/images/vactors/profile.png" alt="">
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="hero-dash">
+            <section class="hero-main">
+                <div class="row">
+                    <div class="col-xxl-3 col-xl-4">
+                        <div class="hero-main_inner">
+                            <div class="image">
+                                <img src="../static/images/vactors/profile_image.png" alt="">
+                            </div>
+                            <div class="content">
+                                <span>Welcome Back </span>
+                                <h3></h3>
+                                <!-- <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                                    Ipsum has been.</p> -->
+
+                                <a href="" class="common_btn">View Profile </a>
+                                <a href="" class="common_btn_black my-3">Awards </a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-9 col-xl-8">
+                        <div class="profile_details">
+                            <ul>
+                                <li>
+                                    <p>Name</p>
+                                    <span></span>
+                                </li>
+                                <li>
+                                    <p>Father's Name</p>
+                                    <span> </span>
+                                </li>
+                                <li>
+                                    <p>Date Of Birth</p>
+                                    <span></span>
+                                </li>
+                                <li>
+                                    <p>Gender</p>
+                                    <span></span>
+                                </li>
+                                <li>
+                                    <p>Personal Email</p>
+                                    <span></span>
+                                </li>
+                                <li>
+                                    <p>Personal Phone</p>
+                                    <span></span>
+                                </li>
+                                <li>
+                                    <p>Maritial Status</p>
+                                    <span></span>
+                                </li>
+                                <li>
+                                    <p>Nationality</p>
+                                    <span></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="profile_details_area">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-profile" type="button" role="tab"
+                                    aria-controls="pills-profile" aria-selected="true">Profile</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-payroll-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-payroll" type="button" role="tab"
+                                    aria-controls="pills-payroll" aria-selected="false">Payroll</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-leaves-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-leaves" type="button" role="tab" aria-controls="pills-leaves"
+                                    aria-selected="false">Leaves</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-attendance-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-attendance" type="button" role="tab"
+                                    aria-controls="pills-attendance" aria-selected="false">Attendance</button>
+                            </li>
+
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-documents-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-documents" type="button" role="tab"
+                                    aria-controls="pills-documents" aria-selected="false">Documents</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-timeline-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-timeline" type="button" role="tab"
+                                    aria-controls="pills-timeline" aria-selected="false">Timeline</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-monthly-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-monthly" type="button" role="tab"
+                                    aria-controls="pills-monthly" aria-selected="false">Monthly Attendance</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-assets-tab" data-bs-toggle="pill"
+                                    data-bs-target="#pills-assets" type="button" role="tab" aria-controls="pills-assets"
+                                    aria-selected="false">Assets Issue</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-profile" role="tabpanel"
+                                aria-labelledby="pills-profile-tab" tabindex="0">
+
+
+
+                                <div class="profile_details_box">
+                                    <div class="row">
+                                        <div class="col-xl-6 ">
+                                            <div class="details_box">
+                                                <span>Phone</span>
+                                                <span>7230866873</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 ">
+                                            <div class="details_box">
+                                                <span>Emergency Contact Number</span>
+                                                <span>8742076234</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Email</span>
+                                                <span>designervijay14@gmail.com</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 ">
+                                            <div class="details_box">
+                                                <span>Gender</span>
+                                                <span>Male</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 ">
+                                            <div class="details_box">
+                                                <span>Date of Birth</span>
+                                                <span>16-02-2004</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Marital Status</span>
+                                                <span>Single</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Father Name</span>
+                                                <span>Dilip Sharma</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Mother Name</span>
+                                                <span>Rajani Sharma</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Qualification</span>
+                                                <span>B.Sc.</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Work Experience</span>
+                                                <span>Frasher</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Note</span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Addhar Number</span>
+                                                <span>7230866873</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Pan Number</span>
+                                                <span>7230866873</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 mb-3">
+                                            <div class="details_headding">
+                                                <img src="../static/images/images/icons/right.svg" alt="">
+                                                Address Detail
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12  ">
+                                            <div class="details_box">
+                                                <span>Current Address</span>
+                                                <span>71 lane No. 6 Chandra NagarMuktanand Nagar Gopalpura ByPass Jaipur
+                                                    - 302018</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12  ">
+                                            <div class="details_box">
+                                                <span>Permanent Address</span>
+                                                <span>Word No. 5 V.P.O. - Peepli Teh - Surajgarh Jhunjhunu -
+                                                    333031</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 mb-3">
+                                            <div class="details_headding">
+                                                <img src="../static/images/icons/right.svg" alt="">
+                                                Payroll Detail
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>ESIC No</span>
+                                                <span>1512268596</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Basic Salary</span>
+                                                <span>5280</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>House Rent Allowance</span>
+                                                <span>3520</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  "  >
+                                            <div class="details_box">
+                                                <span>Conveyance Allowance</span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Technical Allowance</span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Shift Allowance</span>
+                                                <span>5280</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 mb-3">
+                                            <div class="details_headding">
+                                                <img src="../static/images/icons/right.svg" alt="">
+                                                Special Allowance
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>ESI(%)</span>
+                                                <span> </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>PF(%)</span>
+                                                <span>12</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 mb-3">
+                                            <div class="details_headding">
+                                                <img src="../static/images/icons/right.svg" alt="">
+                                                Bank Account Details
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Account Title</span>
+                                                <span>Salary Account</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Bank Name</span>
+                                                <span>HDFC Bank</span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Bank Branch Name</span>
+                                                <span>Villa Station, Jaipur - 30200</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Bank Account Number</span>
+                                                <span>50100521996889</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>IFSC Code</span>
+                                                <span>5280</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Shift Allowance</span>
+                                                <span>5280</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 mb-3">
+                                            <div class="details_headding">
+                                                <img src="../static/images/icons/right.svg" alt="">
+                                                Social Media Link
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Facebook URL</span>
+                                                <span><a href="https://www.instagram.comFrMDdl"
+                                                        target="_blank">https://www.instagram.comFrMDdl</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Twitter URL</span>
+                                                <span><a href="https://www.instagram.comFrMDdl"
+                                                        target="_blank">https://www.instagram.comFrMDdl</a></span>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Linkedin URL</span>
+                                                <span><a href="https://www.instagram.comFrMDdl"
+                                                        target="_blank">https://www.instagram.comFrMDdl</a></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6  ">
+                                            <div class="details_box">
+                                                <span>Instagram URL</span>
+                                                <span><a href="https://www.instagram.comFrMDdl"
+                                                        target="_blank">https://www.instagram.comFrMDdl</a></span>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="tab-pane fade" id="pills-payroll" role="tabpanel"
+                                aria-labelledby="pills-payroll-tab" tabindex="0">
+
+                                <div class="payroll_box">
+                                    <div class="row">
+                                        <div class="col-xxl-4  col-xl-6 mb-3">
+                                            <div class="t_details_box">
+                                                <div class="content">
+                                                    <span>Total Net Salary Paid</span>
+                                                    <h5>₹123,913.80</h5>
+                                                </div>
+                                                <div class="image">
+                                                    <img src="../static/images/icons/icon_t_1.svg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                            <div class="t_details_box">
+                                                <div class="content">
+                                                    <span>Total Net Salary Paid</span>
+                                                    <h5>₹123,913.80</h5>
+                                                </div>
+                                                <div class="image">
+                                                    <img src="../static/images/icons/icon_t_1.svg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xxl-4  col-xl-6 mb-3">
+                                            <div class="t_details_box">
+                                                <div class="content">
+                                                    <span>Total Net Salary Paid</span>
+                                                    <h5>₹123,913.80</h5>
+                                                </div>
+                                                <div class="image">
+                                                    <img src="../static/images/icons/icon_t_1.svg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 mt-2">
+                                            <div class="tab_table">
+                                                <table id="payroll" class="table table-striped dt-responsive nowrap"
+                                                    style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Payslip #</th>
+                                                            <th>Month - Year</th>
+                                                            <th>Date</th>
+                                                            <th>Mode</th>
+                                                            <th>Status</th>
+                                                            <th>Net Salary</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="bg-tr">
+
+                                                        <tr>
+                                                            <td>
+                                                                56
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="paid">Paid</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="generated">Generated</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="paid">Paid</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="paid">Paid</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="generated">Generated</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="paid">Paid</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="paid">Paid</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="generated">Generated</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="paid">Paid</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                57
+                                                            </td>
+                                                            <td>
+                                                                August - 2022
+                                                            </td>
+                                                            <td>
+                                                                06-09-2022
+                                                            </td>
+                                                            <td>
+                                                                Transfer to Bank Account
+                                                            </td>
+                                                            <td>
+                                                                <a class="paid">Paid</a>
+
+                                                            </td>
+                                                            <td>
+                                                                7839.1
+                                                            </td>
+                                                            <td>
+                                                                View Payslip
+                                                            </td>
+
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="pills-leaves" role="tabpanel"
+                                aria-labelledby="pills-leaves-tab" tabindex="0">
+
+                                <div class="leave_box">
+                                    <div class="payroll_box">
+                                        <div class="row">
+                                            <div class="col-xxl-5  col-xl-6 mb-3">
+                                                <div class="t_details_box">
+                                                    <div class="content">
+                                                        <span>PL (1)</span>
+                                                        <h5>Used: 5.5 Available: -4.5</h5>
+                                                    </div>
+                                                    <div class="image">
+                                                        <img src="../static/images/icons/icon_t_2.svg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-5  col-xl-6 mb-3 ">
+                                                <div class="t_details_box">
+                                                    <div class="content">
+                                                        <span>AL (1)/span></span>
+                                                        <h5>Used: 0 Available: 1</h5>
+                                                    </div>
+                                                    <div class="image">
+                                                        <img src="../static/images/icons/icon_t_2.svg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-xl-12 mt-2">
+                                                <div class="tab_table">
+                                                    <table id="leave" class="table table-striped dt-responsive nowrap"
+                                                        style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Leave Type</th>
+                                                                <th>Leave Date</th>
+                                                                <th>Days</th>
+                                                                <th>Apply Date</th>
+                                                                <th>Status</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="bg-tr">
+
+                                                            <tr>
+                                                                <td>
+                                                                    PL
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023 - 02-09-2023
+                                                                </td>
+                                                                <td>
+                                                                    3.0
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023
+                                                                </td>
+                                                                <td>
+                                                                    <a class="paid">Pending</a>
+
+                                                                </td>
+                                                                <td>
+                                                                    View Payslip
+                                                                </td>
+
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    PL
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023 - 02-09-2023
+                                                                </td>
+                                                                <td>
+                                                                    3.0
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023
+                                                                </td>
+                                                                <td>
+                                                                    <a class="paid">Pending</a>
+
+                                                                </td>
+                                                                <td>
+                                                                    View Payslip
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    PL
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023 - 02-09-2023
+                                                                </td>
+                                                                <td>
+                                                                    3.0
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023
+                                                                </td>
+                                                                <td>
+                                                                    <a class="paid">Pending</a>
+
+                                                                </td>
+                                                                <td>
+                                                                    View Payslip
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    PL
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023 - 02-09-2023
+                                                                </td>
+                                                                <td>
+                                                                    3.0
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023
+                                                                </td>
+                                                                <td>
+                                                                    <a class="paid">Pending</a>
+
+                                                                </td>
+                                                                <td>
+                                                                    View Payslip
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    PL
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023 - 02-09-2023
+                                                                </td>
+                                                                <td>
+                                                                    3.0
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023
+                                                                </td>
+                                                                <td>
+                                                                    <a class="paid">Pending</a>
+
+                                                                </td>
+                                                                <td>
+                                                                    View Payslip
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    PL
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023 - 02-09-2023
+                                                                </td>
+                                                                <td>
+                                                                    3.0
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023
+                                                                </td>
+                                                                <td>
+                                                                    <a class="paid">Pending</a>
+
+                                                                </td>
+                                                                <td>
+                                                                    View Payslip
+                                                                </td>
+
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    PL
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023 - 02-09-2023
+                                                                </td>
+                                                                <td>
+                                                                    3.0
+                                                                </td>
+                                                                <td>
+                                                                    31-08-2023
+                                                                </td>
+                                                                <td>
+                                                                    <a class="paid">Pending</a>
+
+                                                                </td>
+                                                                <td>
+                                                                    View Payslip
+                                                                </td>
+
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-attendance" role="tabpanel"
+                                aria-labelledby="pills-attendance-tab" tabindex="0">
+                                <div class="attendance_box">
+                                    <div class="payroll_box">
+                                        <div class="row">
+                                            <div class="col-xxl-4  col-xl-6 mb-3">
+                                                <div class="t_details_box">
+                                                    <div class="content">
+                                                        <span>Total Present</span>
+                                                        <h5>0</h5>
+                                                    </div>
+                                                    <div class="image">
+                                                        <img src="../static/images/icons/icon_t_3.svg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                                <div class="t_details_box">
+                                                    <div class="content">
+                                                        <span>Total Late</span>
+                                                        <h5>0</h5>
+                                                    </div>
+                                                    <div class="image">
+                                                        <img src="../static/images/icons/icon_t_3.svg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                                <div class="t_details_box">
+                                                    <div class="content">
+                                                        <span>Total Absent</span>
+                                                        <h5>0</h5>
+                                                    </div>
+                                                    <div class="image">
+                                                        <img src="../static/images/icons/icon_t_3.svg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                                <div class="t_details_box">
+                                                    <div class="content">
+                                                        <span>Total Half Day</span>
+                                                        <h5>0</h5>
+                                                    </div>
+                                                    <div class="image">
+                                                        <img src="../static/images/icons/icon_t_3.svg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                                <div class="t_details_box">
+                                                    <div class="content">
+                                                        <span>Total Holiday</span>
+                                                        <h5>0</h5>
+                                                    </div>
+                                                    <div class="image">
+                                                        <img src="../static/images/icons/icon_t_3.svg" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12 mt-2">
+                                                <div class="attendance_inner">
+                                                    <select name="" id="">
+                                                        <option value="">2015</option>
+                                                        <option value="">2016</option>
+                                                        <option value="">2017</option>
+                                                        <option value="">2018</option>
+                                                        <option value="">2019</option>
+                                                        <option value="">2020</option>
+                                                        <option value="">2021</option>
+                                                        <option value="">2022</option>
+                                                        <option value="">2023</option>
+                                                        <option value="">2024</option>
+                                                    </select>
+                                                    <ul>
+                                                        <li>
+                                                            <span class="a_a">A</span>
+                                                            Absent 
+                                                        </li>
+                                                        <li>
+                                                            <span class="a_p">P</span>
+                                                            Present 
+                                                        </li>
+                                                        <li>
+                                                            <span class="a_al">AL</span>
+                                                            NCNS
+                                                        </li>
+                                                        <li>
+                                                            <span class="a_h">H</span>
+                                                            Holiday 
+                                                        </li>
+                                                        <li>
+                                                            <span class="a_l">L</span>
+                                                            Late Leave
+                                                        </li>
+                                                        <li>
+                                                            <span class="a_hd">HD</span>
+                                                            Half Day Leave
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-12">
+                                                <div class="attendshow_box">
+                                                    <table id="attendance"
+                                                        class="table table-striped dt-responsive nowrap"
+                                                        style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th><img src="../static/images//icons/shorttb.svg" alt="">
+                                                                    Date | Month</th>
+                                                                <th>January </th>
+                                                                <th>February</th>
+                                                                <th>March</th>
+                                                                <th>April</th>
+                                                                <th>May</th>
+                                                                <th>June</th>
+                                                                <th>July</th>
+                                                                <th>August</th>
+                                                                <th>September</th>
+                                                                <th>October</th>
+                                                                <th>November</th>
+                                                                <th>December</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="bg-tr">
+                                                            <tr>
+                                                                <td>
+                                                                    01
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    02
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    03
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    04
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td> <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    05
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    06
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    07
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    08
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    09
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    10
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    11
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    12
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    13
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    14
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span class="a_a">A</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    15
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    16
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    17
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    18
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    19
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    20
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+                                                                <td>
+                                                                    <span>P</span>
+
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="tab-pane fade" id="pills-documents" role="tabpanel"
+                                aria-labelledby="pills-documents-tab" tabindex="0">
+                            
+                               <div class="row">
+                                <div class="col-xxl-12 col-xl-12">
+                                    <div class="document-stripshow">
+                                        <img src="../static/images/icons/read_more.svg" alt="icon">
+                                        First Joining
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4  col-xl-6 mb-3">
+                                    <div class="t_details_box">
+                                        <div class="content">
+                                            <span>Offer/Joining Letter</span>
+                                            <img src="../static/images/icons/file_save.svg" alt="save">
+                                        </div>
+                                        <div class="image">
+                                            <img src="../static/images/icons/job-letter.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                    <div class="t_details_box">
+                                        <div class="content">
+                                            <span>Appointment Letter</span>
+                                            <img src="../static/images/icons/file_save.svg" alt="save">
+                                        </div>
+                                        <div class="image">
+                                            <img src="../static/images/icons/job-letter.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12">
+                                    <div class="document-stripshow">
+                                        <img src="../static/images/icons/read_more.svg" alt="icon">
+                                        Appraisal Letter 1
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                    <div class="t_details_box">
+                                        <div class="content">
+                                            <span>APPRAISAL LETTER 1 01-10-2022</span>
+                                                <img src="../static/images/icons/file_save.svg" alt="save">
+                                        </div>
+                                        <div class="image">
+                                            <img src="../static/images/icons/job-letter.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xxl-12 col-xl-12">
+                                    <div class="document-stripshow">
+                                        <img src="../static/images/icons/read_more.svg" alt="icon">
+                                        Appraisal Letter 2
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                    <div class="t_details_box">
+                                        <div class="content">
+                                            <span>APPRAISAL LETTER 2 01-01-2023</span>
+                                                <img src="../static/images/icons/file_save.svg" alt="save">
+                                        </div>
+                                        <div class="image">
+                                            <img src="../static/images/icons/job-letter.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xxl-12 col-xl-12">
+                                    <div class="document-stripshow">
+                                        <img src="../static/images/icons/read_more.svg" alt="icon">
+                                        Appraisal Letter 3
+                                    </div>
+                                </div>
+                                <div class="col-xxl-4  col-xl-6 mb-3 ">
+                                    <div class="t_details_box">
+                                        <div class="content">
+                                            <span>APPRAISAL LETTER 3 01-06-2023</span>
+                                                <img src="../static/images/icons/file_save.svg" alt="save">
+                                        </div>
+                                        <div class="image">
+                                            <img src="../static/images/icons/job-letter.svg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                               </div>
+                            
+                            </div>
+                            <div class="tab-pane fade" id="pills-timeline" role="tabpanel"
+                                aria-labelledby="pills-timeline-tab" tabindex="0">
+
+                                <h5 class="text-center mt-5">No Records Found</h5>
+
+                            </div>
+                            <div class="tab-pane fade" id="pills-monthly" role="tabpanel"
+                                aria-labelledby="pills-monthly-tab" tabindex="0">
+                                <div class="table_area">
+                                    <div class="row">
+                                        <div class="col-xl-12 order-xl-0 order-1">
+                                            <div class="table_header attend-tbl-headershw">
+                                                <div class="row">
+                                                    <div class="col-xl-3 d-xl-block d-none">
+                                                        <ul>
+                                                            <li class="d-flex">
+                                                                <i class="fa-solid fa-chevron-left icon-show"></i> <span
+                                                                    class="span-month-show">April 2024</span> <i
+                                                                    class="fa-solid fa-chevron-right icon-show"></i>
+                                                            </li>
+                                                        </ul>
+
+                                                    </div>
+                                                    <div class="col-xl-9">
+                                                        <ul class="ulweeks">
+                                                            <li>
+                                                                Sun
+                                                            </li>
+                                                            <li>
+                                                                Mon
+                                                            </li>
+                                                            <li>
+                                                                Tue
+                                                            </li>
+                                                            <li>
+                                                                Wed
+                                                            </li>
+                                                            <li>
+                                                                Thu
+                                                            </li>
+                                                            <li>
+                                                                Fri
+                                                            </li>
+                                                            <li>
+                                                                Sat
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 order-xl-1 order-0">
+                                            <div class="tab_tabs">
+                                                <ul class="tab_attent-ultag">
+                                                    <li>
+                                                        <span class="abs_tab"></span>
+                                                        Absent
+                                                    </li>
+                                                    <li>
+                                                        <span class="pres_tab"></span>
+                                                        Present
+                                                    </li>
+                                                    <li>
+                                                        <span class="late_tab"></span>
+                                                        Late
+                                                    </li>
+                                                    <li>
+                                                        <span class="hday_tab"></span>
+                                                        Half Day
+                                                    </li>
+                                                    <li>
+                                                        <span class="hldy_tab"></span>
+                                                        Holiday
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-9 ps-0 order-xl-2 order-2">
+                                            <div class="tates_box">
+                                                <ul>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">01</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="a_a">a</span>
+                                                        <span class="number-show">02</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">03</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">04</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">05</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">06</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">07</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">08</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">09</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>H</span>
+                                                        <span class="number-show">10</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">11</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">12</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">13</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">14</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">15</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">16</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">17</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">18</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">19</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="a_l">L</span>
+                                                        <span class="number-show">20</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">21</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">22</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">23</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">24</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">25</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">26</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">27</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">28</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">29</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">30</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">01</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">02</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">03</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">04</span>
+                                                    </li>
+                                                    <li>
+                                                        <span>P</span>
+                                                        <span class="number-show">05</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade" id="pills-assets" role="tabpanel"
+                                aria-labelledby="pills-assets-tab" tabindex="0">
+
+                                <div class="table_area">
+                                    <div class="row">
+                                        <div class="col-xl-12 order-xl-0 order-1">
+                                            <div class="table_header attend-tbl-headershw">
+                                                <div class="row">
+                                                 
+                                                    <div class="col-xl-12">
+                                                        <ul>
+                                                            <li>
+                                                                Item
+                                                            </li>
+                                                            <li>
+                                                                Item Category
+                                                            </li>
+                                                            <li>
+                                                                Issue - Return
+                                                            </li>
+                                                            <li>
+                                                                Issued By
+                                                            </li>
+                                                            <li>
+                                                                Quantity
+                                                            </li>
+                                                            <li>
+                                                                Note
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                      
+                                        <div class="col-xl-12 ps-0 order-xl-2 order-2">
+                                          <h5 class="text-center mt-5">No Record Found</h5>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <footer class="pt-4">
+                <h5>Copyright ©2024 <span>A2Rms</span>. All Rights Reserved</h5>
+            </footer>
+        </div>
+
+    </div>
+
+
+    <!-------------------------------- js Tages ------------------------------------>
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="../static/bootstrap/bootstrap.min.js"></script>
+    <script src="../static/js/main.js"></script>
+       <!--*****************  dataTables-js ******************-->
+       <script type="text/javascript" src="../static/js/jquery.dataTables.min.js"></script>
+       <script type="text/javascript" src="../static/js/dataTables.bootstrap5.min.js"></script>
+       <script type="text/javascript" src="../static/js/dataTables.responsive.min.js"></script>
+       <script type="text/javascript" src="../static/js/responsive.bootstrap5.min.js"></script>
+       <script>
+           $(document).ready(function () {
+               $('#example').DataTable();
+           });
+       </script>
+    <script>
+        $(document).ready(function () {
+            $('#payroll').DataTable();
+            $('#leave').DataTable();
+            $('#attendance').DataTable(
+                {
+                    "pageLength": 100,
+                    "ordering": false,
+                    responsive: false,
+                });
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+    <script>
+        async function loginUser(event) {
+            event.preventDefault(); // Prevent page refresh
+
+            const url = 'http://139.59.29.237:8080/api/v1/login';
+            const email = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Prepare the payload
+            const loginData = {
+                email: email,
+                password: password
+            };
+
+            try {
+                // Make the POST request
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData) // Send JSON data in the request body
+                });
+
+                // Check if the response is successful
+                const data = await response.json();
+                if (response.ok) {
+                    // console.log('Login successful:', data.data);
+                       localStorage.setItem("userid",data.data._id["\u0024oid"])
+                       localStorage.setItem("username",data.data.Firstname)
+                       localStorage.setItem("userfather",data.data.Father_name)
+                       localStorage.setItem("userdob",data.data.DateOfBirth)
+                       localStorage.setItem("usergender",data.data.Gender)
+                       localStorage.setItem("useremail",data.data.Office_email)
+                       localStorage.setItem("userphone",data.data.Phone)
+                       localStorage.setItem("usermarital",data.data.Merital_status)
+                       localStorage.setItem("usercountry",data.data.Current_address)
+
+
+                       window.location.href = '/profile'; 
+                }
+
+ 
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <form id="loginForm">
+            <h1>Login</h1>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button onclick="loginUser(event)" class="btn">Login</button>
+        </form>
+    </div>
+</body>
+</html>
