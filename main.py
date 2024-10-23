@@ -8,7 +8,6 @@ from Awards.routes import awardsroute
 from leaveapplication.model.leaveapplicationmodel import LeaveApplicationCreate, LeaveTable
 from Notice.route import Noticeroutes
 from assetsissue.model.assetmodel import AssetTable
-app = FastAPI()
 from fastapi import APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -29,7 +28,6 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.requests import Request
-app = FastAPI()
 from fastapi import APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -50,12 +48,14 @@ from attendance.model.attendancemodel import AttendanceTable
 from login.route import loginroute
 from leaveapplication.route import leaveapplicationroute
 from bson import ObjectId
+from roles.routes import roleroutes
+app = FastAPI()
 app.add_middleware(
-    CORSMiddleware,  # Add the middleware class here
-    allow_origins=["*"],  # Allows all origins, replace with specific origins as needed
+    CORSMiddleware,  
+    allow_origins=["*"], 
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  
+    allow_headers=["*"],  
 )
 
 connect('A2rms', host="mongodb+srv://avbigbuddy:nZ4ATPTwJjzYnm20@cluster0.wplpkxz.mongodb.net/A2rms")   
@@ -668,6 +668,7 @@ app.include_router(attendanceroute.router, tags=["attendance / Shift"])
 app.include_router(loginroute.router, tags=["Login"])
 app.include_router(Noticeroutes.router, tags=["Notice"])
 app.include_router(awardsroute.router, tags=["Awards"])
+app.include_router(roleroutes.router, tags=["roles / api"])
 
 
 
